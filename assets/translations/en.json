@@ -1,0 +1,17 @@
+{
+    "noConnection": "لا يوجد اتصال بالانترنت!",
+    "noRoute": "لا يوجد مسار",
+    "username": "اسم المستخدم" ,
+    "usernameExample": "Mohamed El-Marakby" ,
+    "password": "كلمة المرور" ,
+    "passwordExample": "●●●●●●●●●●●●",
+    "login": "تسجيل الدخول",
+    "categories": "التصنيفات",
+    "products": "المنتجات",
+    "error": "حدث خطأ أثناء إحضار البيانات",
+    "noEmpty": "برجاء عدم ترك اي حقل فارغ",
+    "notRight": "اسم المستخدم أو كلمة المرور خاطئة",
+    "noCategories": "لا يوجد تصنيفات",
+    "noProducts": "لا يوجد منتجات",
+    "loading": "جاري إحضار البيانات..."
+}
