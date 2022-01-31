@@ -1,31 +1,22 @@
-import 'package:emenu/presentation_layer/resources/color_manager.dart';
-import 'package:emenu/presentation_layer/resources/font_manager.dart';
-import 'package:emenu/presentation_layer/resources/route_manager.dart';
-import 'package:emenu/presentation_layer/resources/string_manager.dart';
-import 'package:emenu/presentation_layer/resources/style_manager.dart';
-import 'package:emenu/presentation_layer/resources/value_manager.dart';
-import 'package:emenu/presentation_layer/widgets/appbar.dart';
-import 'package:emenu/presentation_layer/widgets/emenu_button.dart';
-import 'package:emenu/presentation_layer/widgets/emenu_form_field.dart';
+import '../../../business_logic_layer/provider/authentication_provider.dart';
+import '../../resources/color_manager.dart';
+import '../../resources/font_manager.dart';
+import '../../resources/string_manager.dart';
+import '../../resources/style_manager.dart';
+import '../../resources/value_manager.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/emenu_button.dart';
+import '../../widgets/emenu_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreenView extends StatelessWidget {
+  const LoginScreenView({Key? key}) : super(key: key);
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  Map<String, String> users = {
-    'username': '100',
-    'password': '100',
-  };
-  bool loading = false;
-  TextEditingController username = TextEditingController();
-  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    var authenticationProvider = context.read<AuthenticationProvider>();
+
     return SafeArea(
       child: Scaffold(
         appBar: appBarWidget(),
@@ -42,22 +33,22 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                StringManager.username,
+                StringManager().username,
                 textAlign: TextAlign.start,
                 style: getMediumStyle(
                   fontSize: FontSize.s16,
                   color: ColorManager.white,
                 ),
               ),
-              EMenuFormField(
-                label: StringManager.username,
-                controller: username,
-                hint: StringManager.usernameExample,
+              EMenuFormFieldWidget(
+                label: StringManager().username,
+                controller: authenticationProvider.username,
+                hint: StringManager().usernameExample,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.only(top: AppPadding.p16),
                 child: Text(
-                  StringManager.password,
+                  StringManager().password,
                   textAlign: TextAlign.start,
                   style: getMediumStyle(
                     fontSize: FontSize.s16,
@@ -65,51 +56,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              EMenuFormField(
-                label: StringManager.password,
-                controller: password,
+              EMenuFormFieldWidget(
+                label: StringManager().password,
+                controller: authenticationProvider.password,
                 isPassword: true,
-                hint: StringManager.passwordExample,
+                hint: StringManager().passwordExample,
               ),
-              EMenuButton(
-                title: StringManager.login,
-                loading: loading,
-                onPressed: () {
-                  if (loading) {
-                    return;
-                  } else if (username.text.isEmpty || password.text.isEmpty) {
-                    var snackBar = SnackBar(
-                      content: Text(StringManager.noEmpty),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  }
-                  setState(() {
-                    loading = true;
-                  });
-                  Future.delayed(const Duration(seconds: 2), () {
-                    if (username.text == users['username'] &&
-                        password.text == users['password']) {
-                      setState(() {
-                        loading = false;
-                      });
-                      Navigator.pushReplacementNamed(context, Routes.homeRoute);
+              Consumer<AuthenticationProvider>(
+                  builder: (context, authProvider, _) {
+                return EMenuButtonWidget(
+                  title: StringManager().login,
+                  loading: authProvider.isLoading,
+                  onPressed: () async {
+                    if (authProvider.isLoading) {
+                      return;
                     } else {
-                      setState(() {
-                        loading = false;
-                      });
-                      var snackBar = SnackBar(
-                        content: Text(StringManager.notRight),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      loginStatus status = await authProvider.login();
+                      switch (status) {
+                        case loginStatus.empty:
+                          var snackBar = SnackBar(
+                            content: Text(StringManager().noEmpty),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          break;
+                        case loginStatus.success:
+                          await authProvider.getAllData(context);
+                          break;
+                        case loginStatus.wrong:
+                          var snackBar = SnackBar(
+                            content: Text(StringManager().notRight),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          break;
+                        default:
+                      }
                     }
-                  });
-                },
-                color: ColorManager.black,
-                style: getMediumStyle(
-                  color: ColorManager.white,
-                  fontSize: FontSize.s16,
-                ),
-              )
+                  },
+                  color: ColorManager.black,
+                  style: getMediumStyle(
+                    color: ColorManager.white,
+                    fontSize: FontSize.s16,
+                  ),
+                );
+              })
             ],
           ),
         ),

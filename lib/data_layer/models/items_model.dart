@@ -1,30 +1,4 @@
-class ProductsModel {
-  bool? success;
-  List<Items>? items;
-
-  ProductsModel({this.success, this.items});
-
-  ProductsModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Items {
+class ItemModel {
   int? id;
   int? categoryId;
   String? name;
@@ -35,7 +9,7 @@ class Items {
   String? image;
   bool? liked;
 
-  Items({
+  ItemModel({
     this.id,
     this.categoryId,
     this.name,
@@ -47,7 +21,7 @@ class Items {
     this.liked = false,
   });
 
-  Items.fromJson(Map<String, dynamic> json) {
+  ItemModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryId = json['category_id'];
     name = json['name'];

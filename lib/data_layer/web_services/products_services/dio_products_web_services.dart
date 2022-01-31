@@ -1,13 +1,11 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:emenu/data_layer/models/products_model.dart';
-import 'package:emenu/data_layer/repositories/products_interface.dart';
+import 'package:emenu/data_layer/models/products_response_model.dart';
+import 'package:emenu/data_layer/web_services/products_services/products_interface.dart';
 import 'package:emenu/presentation_layer/resources/string_manager.dart';
 
-class ProductWebServices implements ProductInterface {
+class DioProductWebServices implements ProductServiceInterface {
   late Dio dio;
-  ProductWebServices() {
+  DioProductWebServices() {
     BaseOptions options = BaseOptions(
       baseUrl: StringManager.baseUrl,
       headers: {
@@ -22,13 +20,12 @@ class ProductWebServices implements ProductInterface {
   }
 
   @override
-  Future<ProductsModel> getProducts() async {
+  Future<ProductsResponseModel> getProducts() async {
     final response = await dio.get(StringManager.productsKey);
-    log(response.statusCode.toString());
     if (response.statusCode == 200) {
-      return ProductsModel.fromJson(response.data);
+      return ProductsResponseModel.fromJson(response.data);
     } else {
-      return ProductsModel(success: false);
+      return ProductsResponseModel(success: false);
     }
   }
 }

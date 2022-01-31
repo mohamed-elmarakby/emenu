@@ -13,5 +13,7 @@
    "notRight": "Username or Password incorrect",
    "noCategories": "No Categories Found",
    "noProducts": "No Products Found",
+   "favorites": "Favorite Products",
+   "noFavorites": "No Favorite Products Found",
    "loading": "Loading Data..."
 }

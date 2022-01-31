@@ -1,18 +1,18 @@
-import 'package:emenu/presentation_layer/resources/color_manager.dart';
-import 'package:emenu/presentation_layer/resources/font_manager.dart';
-import 'package:emenu/presentation_layer/resources/style_manager.dart';
+import '../resources/color_manager.dart';
+import '../resources/font_manager.dart';
+import '../resources/style_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class EMenuFormField extends StatelessWidget {
-  String? label;
-  String? hint;
-  TextEditingController? controller;
-  bool isLong;
-  bool isPassword;
-  bool isNumberField;
-  bool readOnly;
-  EMenuFormField({
+class EMenuFormFieldWidget extends StatelessWidget {
+  final String? label;
+  final String? hint;
+  final TextEditingController? controller;
+  final bool isLong;
+  final bool isPassword;
+  final bool isNumberField;
+  final bool readOnly;
+  const EMenuFormFieldWidget({
     Key? key,
     this.readOnly = false,
     this.isNumberField = false,

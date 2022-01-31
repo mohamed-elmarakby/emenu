@@ -1,27 +1,39 @@
-import 'package:emenu/data_layer/models/categories_model.dart';
-import 'package:emenu/data_layer/models/navigation_args_model.dart';
-import 'package:emenu/presentation_layer/resources/assets_manager.dart';
-import 'package:emenu/presentation_layer/resources/color_manager.dart';
-import 'package:emenu/presentation_layer/resources/font_manager.dart';
-import 'package:emenu/presentation_layer/resources/route_manager.dart';
-import 'package:emenu/presentation_layer/resources/style_manager.dart';
-import 'package:emenu/presentation_layer/resources/value_manager.dart';
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:emenu/data_layer/navigation_service/navigation_service.dart';
+import 'package:emenu/service_locator.dart';
+
+import '../../business_logic_layer/provider/data_provider.dart';
+import '../../data_layer/models/categories_model.dart';
+import '../resources/assets_manager.dart';
+import '../resources/color_manager.dart';
+import '../resources/font_manager.dart';
+import '../resources/route_manager.dart';
+import '../resources/style_manager.dart';
+import '../resources/value_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 
-class CategoryCard extends StatelessWidget {
-  final Categories category;
-  const CategoryCard({
+class CategoryCardWidget extends StatelessWidget {
+  final CategoryModel category;
+  const CategoryCardWidget({
     Key? key,
     required this.category,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    log(jsonEncode(category));
+    log(category.name.toString());
+    log(category.arabicName.toString());
+
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, Routes.productsRoute,
-            arguments: NavigationArguments(categoryId: category.id));
+      onTap: () async {
+        context.read<DataViewModel>().setCategoryItemsList(category.id!);
+        serviceLocator<NavigationService>()
+            .pushNavigateTo(Routes.productsRoute);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

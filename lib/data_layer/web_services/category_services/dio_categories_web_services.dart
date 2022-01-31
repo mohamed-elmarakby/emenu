@@ -1,12 +1,11 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:emenu/data_layer/models/categories_model.dart';
-import 'package:emenu/data_layer/repositories/categories_interface.dart';
+import 'package:emenu/data_layer/models/categories_response_model.dart';
+import 'package:emenu/data_layer/web_services/category_services/categories_interface.dart';
 import 'package:emenu/presentation_layer/resources/string_manager.dart';
 
-class CategoryWebServices implements CategoryInterface {
+class DioCategoryWebServices implements CategoryServiceInterface {
   late Dio dio;
-  CategoryWebServices() {
+  DioCategoryWebServices() {
     BaseOptions options = BaseOptions(
       baseUrl: StringManager.baseUrl,
       headers: {
@@ -21,13 +20,12 @@ class CategoryWebServices implements CategoryInterface {
   }
 
   @override
-  Future<CategoriesModel> getCategories() async {
+  Future<CategoriesResponsesModel> getCategories() async {
     final response = await dio.get(StringManager.categoriesKey);
-    log(response.statusCode.toString());
     if (response.statusCode == 200) {
-      return CategoriesModel.fromJson(response.data);
+      return CategoriesResponsesModel.fromJson(response.data);
     } else {
-      return CategoriesModel(success: false);
+      return CategoriesResponsesModel(success: false);
     }
   }
 }

@@ -1,4 +1,7 @@
-import 'package:emenu/presentation_layer/resources/string_manager.dart';
+import '../../data_layer/navigation_service/navigation_service.dart';
+import 'package:emenu/service_locator.dart';
+
+import '../resources/string_manager.dart';
 
 import '../resources/color_manager.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +25,8 @@ AppBar appBarWidget({
               color: ColorManager.white,
             ),
             color: ColorManager.primary,
-            onPressed: () => Navigator.pushReplacementNamed(
-              context!,
-              routeName,
-            ),
+            onPressed: () => serviceLocator<NavigationService>()
+                .replaceNavigateTo(routeName),
           ),
     title: Text(
       StringManager.appName,

@@ -11,6 +11,7 @@ class ColorManager {
   static Color black = HexColor.fromHex('#000000');
 }
 
+//this function is extension from the color class to implement hexadecimal conversion to color type
 extension HexColor on Color {
   static Color fromHex(String hexColorString) {
     hexColorString = hexColorString.replaceAll('#', '');
