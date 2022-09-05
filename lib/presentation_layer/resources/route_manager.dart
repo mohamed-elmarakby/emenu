@@ -6,7 +6,6 @@ import '../screens/favorites_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/products_screen.dart';
 import '../widgets/appbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'string_manager.dart';
 

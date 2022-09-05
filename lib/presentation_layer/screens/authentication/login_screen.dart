@@ -71,18 +71,18 @@ class LoginScreenView extends StatelessWidget {
                     if (authProvider.isLoading) {
                       return;
                     } else {
-                      loginStatus status = await authProvider.login();
+                      LoginStatus status = await authProvider.login();
                       switch (status) {
-                        case loginStatus.empty:
+                        case LoginStatus.empty:
                           var snackBar = SnackBar(
                             content: Text(StringManager().noEmpty),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           break;
-                        case loginStatus.success:
+                        case LoginStatus.success:
                           await authProvider.getAllData(context);
                           break;
-                        case loginStatus.wrong:
+                        case LoginStatus.wrong:
                           var snackBar = SnackBar(
                             content: Text(StringManager().notRight),
                           );

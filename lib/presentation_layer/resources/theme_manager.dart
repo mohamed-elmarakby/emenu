@@ -16,10 +16,8 @@ ThemeData getApplicationThemeData() {
     disabledColor: ColorManager.grey,
     // accentColor: ColorManager.grey,
     colorScheme: ColorScheme(
-      secondaryVariant: ColorManager.primaryWithOpacity40,
       primary: ColorManager.primary,
       onPrimary: ColorManager.black,
-      primaryVariant: ColorManager.black,
       background: ColorManager.black,
       onBackground: ColorManager.black,
       secondary: ColorManager.grey,

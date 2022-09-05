@@ -6,7 +6,7 @@ import 'data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-enum loginStatus { success, wrong, empty }
+enum LoginStatus { success, wrong, empty }
 
 class AuthenticationProvider with ChangeNotifier {
   bool _loading = false;
@@ -25,20 +25,20 @@ class AuthenticationProvider with ChangeNotifier {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  Future<loginStatus> login() async {
+  Future<LoginStatus> login() async {
     if (username.text.isEmpty || password.text.isEmpty) {
-      return loginStatus.empty;
+      return LoginStatus.empty;
     }
     setLoading = true;
-    loginStatus check = loginStatus.wrong;
+    LoginStatus check = LoginStatus.wrong;
 
     // await Future.delayed(const Duration(seconds: 2), () {
     if (username.text == testUser['username'] &&
         password.text == testUser['password']) {
-      check = loginStatus.success;
+      check = LoginStatus.success;
     } else {
       setLoading = false;
-      check = loginStatus.wrong;
+      check = LoginStatus.wrong;
     }
     // });
     return check;
